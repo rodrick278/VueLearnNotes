@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <h2 :style="{key(属性名):value(属性值)}">{{msg}}</h2> -->
+    <!-- 注意这里的fontSize必须使用驼峰方法  冒号右边的值不加单引号 vue会把当成一个变量去data里找 -->
+    <h2 :style="{fontSize:'50px'}">{{msg}}</h2>
+    <h2 :style="{fontSize:finSize}">{{msg}}</h2>
+    <h2 :style="{fontSize:finIntSize+'px',color:finColor}">{{msg}}</h2>
+    <h2 :style="getStyle()">{{msg}}</h2>
+    <!-- 数组写法 不说了 -->
+    <h2 :style="[arrStyle,arrStyle1]">{{msg}}</h2>
+
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        msg: "hi vue",
+        finSize: '100px',
+        finIntSize: 100,
+        finColor:'red',
+        arrStyle:{color:'yellow'},
+        arrStyle1:{backgroundColor:'red'}
+
+      },
+      methods: {
+        getStyle:function () {
+          return {fontSize:this.finIntSize+'px',color:this.finColor}
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

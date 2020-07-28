@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <img v-bind:src="imgurl"/>
+    <a v-bind:href="linkurl">this is a link</a>
+    <!-- 语法糖 -->
+    <img :src="imgurl"/>
+    <a :href="linkurl">this is a link</a>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        imgurl: "https://cn.vuejs.org/images/logo.png",
+        linkurl:"https://www.bilibili.com/video/BV15741177Eh"
+      },
+      methods: {}
+    });
+  </script>
+
+</body>
+
+</html>

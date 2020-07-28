@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    [v-cloak] {
+      display: none;
+      /* color:red */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- v-once 渲染结束后再改值不会产生响应式改变的效果 -->
+    <h2 v-once>{{message}}</h2>
+    <!-- v-html 将data中的html文本进行解析 类似于 innnerHtml -->
+    <h2 v-html="url"></h2>
+    <!-- 一般不用 v-text 不灵活-->
+    <h2 v-text="message"></h2>
+    <!-- v-pre vue不解析 Mustache中的内容 -->
+    <h2 v-pre>{{message}}</h2>
+    <!-- v-cloak 等这个指令保持在元素上直到关联实例结束编译 可以打开下面的setTimeout代码查看效果 异步时可能会用到 -->
+    <h2 v-cloak>{{message}}</h2>
+  </div>
+  <div>
+    <iframe src="//player.bilibili.com/player.html?aid=89760569&bvid=BV15741177Eh&cid=153296473&page=14" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: "aaa1",
+        url: "<a href='http://www.baidu.com'>百度链接</a>"
+      },
+      methods: {}
+    });
+
+
+    // setTimeout(() => {
+    //   var app = new Vue({
+    //     el: '#app',
+    //     data: {
+    //       message: "aaa1",
+    //       url: "<a href='http://www.baidu.com'>百度链接</a>"
+    //     },
+    //     methods: {}
+    //   });
+    // }, 1000);
+
+
+
+  </script>
+
+</body>
+
+</html>

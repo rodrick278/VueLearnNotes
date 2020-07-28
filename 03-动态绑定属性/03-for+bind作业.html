@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .changefont {
+      color: red;
+      font-size: 50px
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h2 v-on:click="titleClick">{{title}}</h2>
+    <ul>
+      <li @click="doclick(index)" :class="changeClass(index)" v-for="(item,index) in target">{{index}}-{{item}}</li>
+    </ul>
+
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        title:"点击元素改变样式",
+        target: ["vue", "typescript", "linux", "react"],
+        curIndex:-1 // 重点！标记用
+      },
+      methods: {
+        doclick: function (index) {
+          this.curIndex = index
+
+        },
+        changeClass: function (index) {
+          return { changefont: index === this.curIndex }// === 类型和值都一致
+        },
+        titleClick:function(){
+          alert("点我没用的！")
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>

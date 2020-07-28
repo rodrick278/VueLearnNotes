@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- {{这个就是Mustache,可以写简单的表达式}} -->
+  <div id="app">
+    <h2>{{message}}</h2>
+    <h2>{{message}}, Anna</h2>
+    <h2>{{str1 + " " + str2}}</h2>
+    <h2>{{str1}} {{str2}}</h2>
+    <h2>{{count * 2}}</h2>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: "hi",
+        str1: "haha",
+        str2: "bye",
+        count:100
+      },
+      methods: {}
+    });
+  </script>
+
+</body>
+
+</html>

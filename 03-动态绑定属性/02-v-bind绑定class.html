@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .active {
+      color: red
+    }
+    .line {
+      color: blue
+    }
+    .bigfont{
+      font-size: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 对象语法 -->
+    <!-- <h2 :class="active">{{msg}}</h2> -->
+    <!-- <h2 :class="{类1: true,类2: boolean}">{{msg}}</h2> -->
+    <!-- 这里会和原本的class合并 -->
+    <h2 class="bigfont" :class="{active: isActive,line: isLine}">{{msg}}</h2>
+    <h2 :class="getClass()">{{msg}}</h2>
+    <button v-on:click="btnClick">anniu</button>
+    <br><br>
+
+    <!-- 数组语法 -->
+    <!-- 注意不带引号的会指向data中的变量参数 带印好的就是字符串 直接指向css -->
+    <h2 :class="['bigfont','line',active]">{{msg}}</h2>
+    <h2 :class="getArrClass()">{{msg}}</h2>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        msg: "hi",
+        active: "active",
+        isActive: true,
+        isLine: false
+      },
+      methods: {
+        // !注意，不应该使用箭头函数来定义 method 函数 (例如 plus: () => this.a++)。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例，this.a 将是 undefined。
+        btnClick: function () {
+          this.isActive = !this.isActive
+          this.isLine = !this.isLine
+        },
+        getClass:function(){
+          return {active: this.isActive,line: this.isLine}
+        },
+        getArrClass:function(){
+          return ['bigfont',this.active,'line']
+        }
+       
+      }
+    });
+  </script>
+
+</body>
+
+</html>

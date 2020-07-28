@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h2>当前数字：{{counter}}</h2>
+        <!-- 方法一 简单的实现直接写在里面 -->
+        <!-- <button v-on:click="counter++">+</button>
+        <button v-on:click="counter--">-</button> -->
+
+        <!-- 方法二 -->
+        <!--@click是语法糖-->
+        <button @click="add">+</button>
+        <button v-on:click="sub">-</button>
+    </div>
+
+
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                counter: 0
+            },
+            methods: {//用来存储方法
+                add: () => {
+                    console.log("数字被增加");
+                    this.counter++// 等同于 app.counter++  这里this==app
+                },
+                sub: () => {
+                    console.log("数字被减少");
+                    this.counter--
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
