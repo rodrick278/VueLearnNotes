@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 各调用三次 -->
+    <h2>{{fullName}}</h2>
+    <h2>{{fullName}}</h2>
+    <h2>{{fullName}}</h2>
+
+    <h2>{{getFullName()}}</h2>
+    <h2>{{getFullName()}}</h2>
+    <h2>{{getFullName()}}</h2>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        name1:"kiee",
+               name2:"rodrick"
+      },
+      computed:{
+        // fullname(){
+        //   return this.name1+' '+this.name2
+        // }
+        // 计算属性一半不使用set方法 也就是只读
+        fullName(){
+          // 值不变的话就调用一次
+          console.log("computed");
+          return this.name1+' '+this.name2
+        }
+      },
+      methods: {
+        getFullName(){
+          // 会调用三次
+          console.log("methods");
+          return this.name1+' '+this.name2
+        }
+
+      }
+    });
+  </script>
+
+</body>
+
+</html>
