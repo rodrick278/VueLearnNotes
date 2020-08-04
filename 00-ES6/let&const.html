@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button>AA1</button>
+  <button>AA2</button>
+  <button>AA3</button>
+  <button>AA4</button>
+  <button>AA5</button>
+
+</body>
+
+
+<script>
+  var btns = document.getElementsByTagName('button');
+  //这样都会打印‘第4个按钮’
+  // for(var i=0;i<btns.length;i++){
+  //   btns[i].addEventListener('click',function(){
+  //     console.log("第"+i+"个按钮");
+  //   })
+  // }
+
+  // ★★★★★ES5解决方法是利用函数的闭包 （函数有自己的作用域 而if for 是没作用域的）
+  // for (var i = 0; i < btns.length; i++) {
+  //   (function (aaa) {
+  //     btns[aaa].addEventListener('click', function () {
+  //       console.log("第" + aaa + "个按钮");
+  //     })
+  //   })(i)
+  // }
+
+  // ★★★★ES6这样可以解决
+  // for (let i = 0; i < btns.length; i++) {
+  //   btns[i].addEventListener('click', function () {
+  //     console.log("第" + i + "个按钮");
+  //   })
+  // }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    const name = 'kobe'
+    const age = 18
+    const run = function () {
+      console.log('run');
+    }
+
+    // 同名直接传进来 对象的方法用简写就可以
+    const obj = {
+      name,
+      age,
+      run,
+      sleep() {
+        console.log('sleep');
+      }
+    }
+    console.log(obj);
+    console.log(obj.sleep());
+
+  </script>
+</body>
+
+</html>
