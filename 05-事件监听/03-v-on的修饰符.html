@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <!-- 1. .stop修饰符 防止事件冒泡 这里点击aaaa会触发divclick 点击按钮只会触发btnclick-->
+    <div @click="divclick">
+      aaaaa
+      <button @click.stop="btnclick">按钮</button>
+    </div>
+    <br>
+
+    <!-- 2. .prevent修饰符  阻止默认事件  这里不阻止就会默认触发submit像服务器请求 /post a标签也是个典型例子-->
+    <form action="dopost">
+      <a href="http://www.baidu.com" @click.prevent="subClick">baidugogogo</a>
+      <input type="submit" value="提交" @click.prevent="subClick">
+    </form>
+    <br>
+
+    <!--  3. 监听键盘键帽 -->
+    <!-- <input type="text"  @keyup="keyup"> -->
+    <!-- 回车触发 -->
+    <input type="text" @keyup.enter="keyup">
+
+    <!-- 4. .once 事件仅触发一次-->
+    <button @click.once="btn2click">btn2</button>
+
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {},
+      methods: {
+
+        btnclick() {
+          console.log('btnbtn');
+        },
+        divclick() {
+          console.log('divdiv');
+        },
+        subClick() {
+          console.log('subClick');
+        },
+        keyup() {
+          console.log('keyup');
+        },
+        btn2click() {
+          console.log('btn2click');
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
