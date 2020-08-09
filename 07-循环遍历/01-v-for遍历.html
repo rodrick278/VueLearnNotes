@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <!-- 数组遍历 -->
+    <ul>
+      <li v-for="item in arr">{{item}}</li>
+    </ul>
+    <ul>
+      <li v-for="(item,ind) in arr">{{ind+1}}-{{item}}</li>
+    </ul>
+    <!-- 对象遍历 -->
+    <ul>
+      <li v-for="item in info">{{item}}</li>
+    </ul>
+    <ul>
+      <li v-for="(item,key) in info">{{key}}-{{item}}</li>
+    </ul>
+    <ul>
+      <li v-for="(item,key,index) in info">{{key}}-{{item}}-{{index}}</li>
+    </ul>
+    <ul>
+      <li v-for="(item,index) in arrinfo">{{index}}-{{item.name}}</li>
+    </ul>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        arr: ["aa", "bb", "cc"],
+        info: {
+          name: "rodrick",
+          age: 18,
+          hobby: "eat"
+        },
+        arrinfo: [
+          {
+            name: "rodrick1",
+            age: 181,
+            hobby: "eat1"
+          },
+          {
+            name: "rodrick2",
+            age: 182,
+            hobby: "eat2"
+          },
+          {
+            name: "rodrick3",
+            age: 183,
+            hobby: "eat3"
+          }
+        ]
+      },
+      methods: {}
+    });
+  </script>
+
+</body>
+
+</html>

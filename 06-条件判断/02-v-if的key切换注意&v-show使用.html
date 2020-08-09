@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <span v-if="isUser">
+      <label for="un">用户账户</label>
+      <!-- 注意 如果不加key的话  这两个input切换的时候  input里面的值不会变化！ -->
+      <input type="text" id="un" placeholder="用户账户" key="un">
+    </span>
+    <span v-else>
+      <label for="ue">用户邮箱</label>
+      <input type="text" id="ue" placeholder="用户邮箱" key='ue'>
+    </span>
+    <br>
+    <!-- v-show是一定会渲染的 所以 切换很频繁的时候用v-show 不频繁的时候用v-if -->
+    <span v-show="isUser">
+      <label for="ushow">用户账户show</label>
+      <!-- 注意 如果不加key的话  这两个input切换的时候  input里面的值不会变化！ -->
+      <input type="text" id="ushow" placeholder="用户账户" key="un">
+    </span>
+    <br>
+    <button @click="btnclick">切换登陆方式</button>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        isUser: true
+      },
+      methods: {
+        btnclick() {
+          this.isUser = !this.isUser
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
