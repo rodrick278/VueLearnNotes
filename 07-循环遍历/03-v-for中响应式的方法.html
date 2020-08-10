@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <ul>
+      <!-- of 和 in 都可以 -->
+      <li v-for="item of arr" :key="item">{{item}}</li>
+    </ul>
+    <br>
+    <button @click="btnclick">btn</button>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        arr: ['b', 'a', 'c', 'd', 'e', 'f']
+      },
+      methods: {
+        btnclick() {
+          // push pop[从后面删] shift[从开头删] unshift[数组开头添加元素] splice(位置,删几个元素,插入一个元素) sort reverse 响应
+          // this.arr.push("aa","bb","cc")
+          // this.arr.pop()
+          // this.arr.shift()
+          // this.arr.unshift('pp','tt','oo')
+          // this.arr.splice(1,0,'ww','ee','rr')
+          // this.arr.sort()
+          // this.arr.reverse()
+
+          // 通过index改变  非响应  但是数组值会变
+          // this.arr[0] = "bbbb"
+          //解决方法:
+          // this.arr.splice(0,1,"bbbb")
+          // set(修改对象,位置,值)
+          Vue.set(this.arr,0,"bbbb")
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
