@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    {{mtret}}
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    // filter/map/reduce函数
+
+    // 需求：去除所有小于100的值
+    // filter传入的回调函数必须返回一个boolean值  true：把这次回调用的值n加入新的数组 false：n被过滤掉
+    const nums = [10, 20, 300, 600, 400, 70, 2]
+    let nums1 = nums.filter(
+      // 四种写法
+      //   function (n) {
+      //   return n < 100
+      // }
+      n => n < 100
+      // (n)=>n<100
+      // (n) => {return n < 100}
+    )
+
+    // 需求：将取出的所有数字*2
+    // 遍历所有的值计算然后返回
+    let nums2 = nums1.map(n => n * 2)
+
+    // 需求：求和
+    // reduce 第二个参数的0指的是初始化值 也就是preValue第一轮的时候的值
+    let nums3 = nums2.reduce((preValue, n) => {
+     return preValue + n
+    }, 0)
+
+    console.log(nums1);
+    console.log(nums2);
+    console.log('nums3',nums3);
+
+    // 连续使用
+    let total= nums.filter(n=>n<100).map(n=>n*2).reduce((pre,cur)=>{return pre+cur})
+    console.log(total);
+  </script>
+
+</body>
+
+</html>
