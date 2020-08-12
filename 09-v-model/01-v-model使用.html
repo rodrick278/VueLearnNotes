@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+      <div id="app">
+        <h3>双向绑定 修改框里值 后面的值也会变 修改app.msg input也会变</h3>
+        <input type="text" v-model="msg">
+        {{msg}}
+      </div>
+      <script src="../js/vue.js"></script>
+      <script>
+          var app=new Vue({
+             el:'#app',
+             data:{
+               msg:'ABC'
+             },
+             methods:{}
+          });
+      </script>
+
+</body>
+</html>

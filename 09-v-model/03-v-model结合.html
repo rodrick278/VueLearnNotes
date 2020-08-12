@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <label for="">
+      <input type="radio" id="man" name="sex" value="nan" v-model="sex">男
+      <input type="radio" id="female" name="sex" value="nv" v-model="sex">女
+    </label>
+    <h3>选择的性别是{{sex}}</h3><br>
+
+
+    <label for="cbox">
+      <input type="checkbox" id="cbox" v-model="isCheck">选择
+    </label>
+    <h3>是否选择：{{isCheck | cboxret}}</h3>
+    <button :disabled="!isCheck">下一步</button>
+    <br>
+
+    <input type="checkbox" v-model="checks" value="1">选择1
+    <input type="checkbox" v-model="checks" value="2">选择2
+    <input type="checkbox" v-model="checks" value="3">选择3
+    <input type="checkbox" v-model="checks" value="4">选择4
+    <br>
+    <!-- 值绑定写法 比较活用 -->
+    <label :for="item" v-for="item in checkarr">
+      <input type="checkbox" :value="item" :id="item" v-model="checks">{{item}}
+    </label>
+
+    <h3>选择的是{{checks}}</h3>
+    <br>
+
+    <select name="shuiguo" id="shuiguo" v-model="shuiguo">
+      <option value="香蕉">香蕉</option>
+      <option value="苹果">苹果</option>
+    </select>
+    <h3>选择的水果是{{shuiguo}}</h3>
+
+    <select name="shuiguo" v-model="shuiguos" multiple>
+      <option value="香蕉">香蕉</option>
+      <option value="苹果">苹果</option>
+    </select>
+    <h3>选择的水果是{{shuiguos}}</h3>
+
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        sex: 'nan',
+        isCheck: true,
+        checks: [],
+        shuiguo: '香蕉',
+        shuiguos: [],
+        checkarr: ['选择1', '选择2', '选择3', '选择4']
+      },
+      methods: {},
+      filters: {
+        cboxret(cval) {
+          return cval ? "YES" : "NO"
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
