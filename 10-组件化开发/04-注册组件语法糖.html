@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <my-cpn></my-cpn>
+    <cpn2></cpn2>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    // 全局写法
+    Vue.component('my-cpn', {
+      template: `
+              <div>
+                <h2>是我11</h2>
+              </div>
+            `
+    })
+
+    var app = new Vue({
+      el: '#app',
+      data: {},
+      methods: {},
+      // 局部写法
+      components: {
+        cpn2: {
+          template: `
+              <div>
+                <h2>是我22</h2>
+              </div>
+            `
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
