@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <soncpn :cmovies="movies" :cmsg="msg"></soncpn>
+  </div>
+
+  <!-- 子组件html模板 -->
+  <template id="soncpn">
+    <div>
+      <h1>{{cmsg}}</h1>
+      <h2 v-for="cmovie of cmovies">{{cmovie}}</h2>
+    </div>
+  </template>
+  <script src="../js/vue.js"></script>
+  <script>
+
+    // 子组件内容
+    const soncpn = {
+      // !!!!注意 这里不要写成cMovies这种驼峰写法 会报错 识别不了！！！  推荐使用c-movies这种
+      props: ['cmovies', 'cmsg'],
+
+      // props的多种写法
+      // props:{
+      // 1.限制类型
+      // cmovies:Array,
+      // cmsg:String
+
+      //2.给默认值
+      // cmsg:{
+      //   type:String,
+      //   default:'AAAAAA',
+      //   required:true //代表这个值是必须传的
+      // },
+      // cmovies:{
+      //   type:Array,
+      //   //default:[] //数组不要这样给默认空值 会报错 Invalid default value for prop "cmovies": Props with type Object/Array must use a factory function to return the default value.
+      //   //正确写法是
+      //   default(){
+      //     return []
+      //   }
+
+      //3.其他补充参考笔记
+      // }
+    // },
+      template: '#soncpn'
+    }
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        movies: ['哈利波特', '福州者联盟', '魔戒'],
+        msg: '电影列表'
+      },
+      methods: {},
+      components: {
+        // ES6 语法
+        soncpn
+      }
+
+    });
+  </script>
+</body>
+
+</html>

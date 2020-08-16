@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <cpn></cpn>
+    <cpn></cpn>
+  </div>
+
+  <template id="usecpn">
+    <!-- 注意 这里必须用div或者其他的啥包裹住才行 -->
+    <div>
+      <h2>当前数字：{{counter}}</h2>
+      <button @click="plus">+</button>
+      <button @click="min">-</button>
+    </div>
+  </template>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    // 如果需要多组件复用counter 就提取出来
+    const obj={
+      counter:0
+    }
+
+
+    Vue.component('cpn', {
+      template: '#usecpn',
+      data() {
+        return {
+          counter:0
+        }
+        // return obj
+        
+      },
+      methods: {
+        plus() {
+          this.counter++
+        },
+        min() {
+          this.counter--
+        }
+      }
+    })
+
+    var app = new Vue({
+      el: '#app',
+      data: {},
+      methods: {}
+    });
+  </script>
+</body>
+
+</html>
