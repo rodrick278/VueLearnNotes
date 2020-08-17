@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <h2>{{nowClickItem}}</h2>
+    <!-- 4. 父组件里监听刚才发射来的事件 -->
+    <soncpn @be-click="fuclick"></soncpn>
+  </div>
+
+  
+  <template id="soncpn">
+    <div>
+      <!-- 1.子组件的模板  子传父事件从这开始 绑定基础事件  -->
+      <button v-for="item of categories" @click="itemClick(item)">{{item.name}}</button>
+    </div>
+  </template>
+
+  <script src="../js/vue.js"></script>
+  <script>
+
+    // 子组件
+    const soncpn = {
+      template: '#soncpn',
+      data() {
+        return {
+          categories: [
+            { id: "aa", name: "热门推荐" },
+            { id: "bb", name: "家用电器" },
+            { id: "cc", name: "数码产品" },
+            { id: "dd", name: "体育用品" }
+          ]
+        }
+      },
+      methods: {
+        //2. 把绑定的事件 写进子组件的methods里
+        itemClick(item) {
+          // 3. $emit 把这个事件最终需要返回的结果(①父组件监听的事件名【be-click】②参数【item】这里可以传多个...item) “发射”给父组件
+          this.$emit('be-click',item)
+        }
+      }
+    }
+
+    // 父组件
+    var app = new Vue({
+      el: '#app',
+      data: {
+        nowClickItem:'什么都没点击'
+      },
+      methods: {
+        fuclick(item){
+          console.log(item);
+          this.nowClickItem='你点击了：'+item.name
+        }
+      },
+      components: {
+        soncpn
+      }
+    });
+  </script>
+
+</body>
+
+</html>

@@ -9,10 +9,12 @@
 
 <body>
   <div id="app">
+    <!-- 3.将父模板的data想办法传给子模板 用v-bind -->
     <soncpn :cmovies="movies" :cmsg="msg"></soncpn>
   </div>
 
   <!-- 子组件html模板 -->
+  <!-- 1.确认子模板需要父模板传来的元素 -->
   <template id="soncpn">
     <div>
       <h1>{{cmsg}}</h1>
@@ -24,6 +26,7 @@
 
     // 子组件内容
     const soncpn = {
+      // 2.用props写下要接的"data"名字
       // !!!!注意 这里不要写成cMovies这种驼峰写法 会报错 识别不了！！！  推荐使用c-movies这种
       props: ['cmovies', 'cmsg'],
 
