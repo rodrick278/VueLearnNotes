@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <cpn>
+      <!-- 注意写法 1.统一用template包裹住使用插槽的内容 
+        2. 格式 统一 v-slot:[插槽名 没有就用default]="[作用域名xx 名字随便取 使用时用xx.插槽传出的值]"
+        3. 语法糖 #插槽名="作用域名"
+        4. ="作用域名" 没有作用域插槽可以不写 作用域插槽配套于<slot :xx="ooo"> -->
+      <!-- <template v-slot:slotnm="slotAA"> -->
+        <template #slotnm="slotAA">
+      <!-- <template v-slot:default="slotAA"> -->
+        <span>{{slotAA.dt}}</span>
+      </template>
+    </cpn>
+  </div>
+
+  <template id='childcpn'>
+    <div>
+      <h2>我是不变的</h2>
+      <!-- 这里把dt[名字随便取 只是为了作用域插槽能用] 打出去给外面作用域用 -->
+      <slot name="slotnm" :dt="plg"></slot>
+    </div>
+  </template>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {},
+      methods: {},
+      components: {
+        cpn: {
+          template: '#childcpn',
+          data() {
+            return {
+              plg: ['java', 'py', 'js', 'go']
+            }
+
+          }
+        }
+      }
+    }
+    );
+  </script>
+</body>
+
+</html>

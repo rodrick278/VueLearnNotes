@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <!-- <cpn>
+      <button>AA</button>
+      <button>AbA</button>
+    </cpn>
+    <cpn><span>span</span></cpn>
+    <cpn><a href="">hhhref</a></cpn> -->
+    <cpn>
+      <template v-slot:default>
+        <span>span</span>
+      </template>
+    </cpn>
+  </div>
+
+  <!-- 插槽本身可以有默认值 不传内容的时候使用默认值  传内容的时候把内容全部显示 -->
+  <template id='childcpn'>
+    <div>
+      <h2>我是不变的</h2>
+      <slot><input type="text" placeholder="我是插槽的默认值"></slot>
+    </div>
+  </template>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {},
+      methods: {},
+      components: {
+        cpn: {
+          template: '#childcpn'
+        }
+
+      }
+    });
+  </script>
+</body>
+
+</html>

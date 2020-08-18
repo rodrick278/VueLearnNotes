@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <cpn>
+      <template v-slot:mid>
+        <button>AA</button>
+      </template>
+    </cpn>
+  </div>
+
+  <template id='childcpn'>
+    <div>
+      <h2>我是不变的</h2>
+      <slot name="left"><span>left</span></slot>
+      <slot name="mid"><span>mid</span></slot>
+      <slot name="right"><span>right</span></slot>
+    </div>
+  </template>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {},
+      methods: {},
+      components: {
+        cpn: {
+          template: '#childcpn'
+        }
+
+      }
+    });
+  </script>
+</body>
+
+</html>
