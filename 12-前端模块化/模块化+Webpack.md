@@ -2,7 +2,7 @@
 
 #### 0.vscode配置
 
-下载 **type="module"**插件 保证server环境 否则会跑不起来
+下载 **Live Server**插件 保证server环境 否则会跑不起来
 
 #### 1.html引用js
 
