@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h2>{{parmsg}}</h2>
+    <childcpn ref="cpn1"></childcpn>
+  </div>
+
+  <template id="child-cpn">
+    <div>
+      <h2>i am child cpn</h2>
+      <button @click="childc">click</button>
+    </div>
+  </template>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        parmsg:'par'
+      },
+      methods: {
+        showMsg(){
+          console.log("i log");
+        }
+      },
+      components: {
+        childcpn: {
+          template: '#child-cpn',
+          methods:{
+            childc(){
+              // 访问父组件
+              console.log(this.$parent);
+              this.$parent.showMsg()
+
+              // 访问根组件
+              this.$root.showMsg()
+              this.$parent.parmsg='chlid'
+            }
+          }
+        }
+      }});
+  </script>
+</body>
+
+</html>

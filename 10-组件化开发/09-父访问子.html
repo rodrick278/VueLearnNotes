@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <childcpn ref="cpn1"></childcpn>
+    <childcpn></childcpn>
+    <childcpn ref="cpn2"></childcpn>
+    <button @click="btnc">click</button>
+  </div>
+
+  <template id="child-cpn">
+    <div>
+      <h2>i am child cpn</h2>
+      {{name}}
+    </div>
+  </template>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {},
+      methods: {
+        btnc(){
+          // $children只能通过下标 一般是取得所有的子组件时需要用
+          // this.$children[2].showMsg()
+          // console.log(this.$children[2].name);
+
+          // $refs可以通过ref 类似于id一样的 一半取单独的子组件用这个
+          this.$refs.cpn2.showMsg()
+          console.log(this.$refs.cpn2.name);
+          this.$refs.cpn2.name='BBB'
+        }
+
+      },
+      components: {
+        childcpn: {
+          template: '#child-cpn',
+          data() {
+            return {
+              name: 'AAA'
+            }
+          },
+          methods: {
+            showMsg() {
+              console.log('log me');
+            }
+          }
+        }
+      }});
+  </script>
+</body>
+
+</html>
