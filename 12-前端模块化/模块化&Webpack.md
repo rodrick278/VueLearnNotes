@@ -101,6 +101,8 @@
 
 ### 二、webpack
 
+![image-20200823203523430](C:\Users\Rodrick\AppData\Roaming\Typora\typora-user-images\image-20200823203523430.png)
+
 #### 1. webpack起步
 
  1. vscode的配置
@@ -209,6 +211,214 @@
     > ​		*而我们此时的 `npm run build` 相当于走了第一步
 
     
+
+#### 3. loader的使用
+
+##### 3.0 loader基本使用
+
+	1. 需要在 *webpack.config.js* 里的 *module* 中配置
+ 	2. 可以在 [webpack官方文档](https://www.webpackjs.com/) 的 [LOADER](https://www.webpackjs.com/loaders/) 中查看基本配置
+
+##### 3.1 css-loader
+
+ 1. 在 *main.js* 中直接*依赖css文件
+
+    ```javascript
+    require('./css/normal.css') 
+    ```
+
+	2. npm安装*css-loader*和*style-loader*
+
+    ```bash
+    npm install --save-dev css-loader
+    npm install style-loader --save-dev
+    ```
+
+	3. *webpack.config.js*配置
+
+    ```javascript
+    {
+      module: {
+        rules: [
+          {
+            test: /\.css$/,
+            use: [
+              // css-loader只负责加载  style-loader 负责将模块的导出作为样式添加到 DOM 中
+            	// 使用多个loader时 加载顺序是先右后左  所以css-loader放在右边 先加载
+              { loader: "style-loader" },
+              { loader: "css-loader" }
+            ]
+          }
+        ]
+      }
+    }
+    ```
+
+
+
+##### 3.2 less-loader
+
+1. 在 *main.js* 中直接*依赖less文件
+
+   ```javascript
+   // 依赖less文件
+   require('./css/special.less')
+   ```
+
+2. npm安装*less-loader* **  [前提是安装过了css-loader&style-loader]**
+
+   ```bash
+   npm install --save-dev less-loader less
+   ```
+
+3. *webpack.config.js*配置
+
+   ```javascript
+   {
+     module: {
+       rules: [
+         {
+           test: /\.less$/,
+           use: [{
+             loader: "style-loader" // creates style nodes from JS strings
+           }, {
+             loader: "css-loader" // translates CSS into CommonJS
+           }, {
+             loader: "less-loader" // compiles Less to CSS
+           }]
+         }
+       ]
+     }
+   }
+   ```
+
+   
+
+##### 3.3 图片的loader
+
+ 1. 引用图片
+
+    ```css
+    body {
+      /* 一般会用url形式引用 */
+      background:url("../img/BIGIMG.jpg")
+    }
+    ```
+
+	2. npm安装 *url-loader* & *file-loader*
+
+    步骤略
+
+	3. *webpack.config.js*配置
+
+    > 这里因为文件也会被打包进dist文件夹  默认的命名是用hash64随机命名 并且默认不会去dist文件夹里读
+    >
+    > 所以我们这里用name属性对打包规则【读取路径+文件名】进行控制
+
+    ```javascript
+    {
+      module: {
+        rules: [
+          {
+            test: /\.(png|jpg|gif|jpeg)$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  // 当图片小于这个大小【kb*1024】 直接加载为base64  大于的时候 需要file-loader
+                  limit: 129808,
+                  //img表示文件父目录，[name]表示文件名,[hash:8]表示将hash截取8位[ext]表示后缀
+                  name:'img/[name].[hash:8].[ext]'
+                },
+               
+              }
+            ]
+          }
+        ]
+      }
+    }
+    ```
+
+##### 3.4 babel
+
+ 1. npm
+
+    这里没按照官网的来 和第二步配置有关
+
+    ```bash
+    npm install --save-dev babel-loader@7 babel-core babel-preset-es2015
+    ```
+
+	2. module配置
+
+    ```javascript
+          {
+            test: /\.js$/,
+            // 排除node模块的js和bower的js
+            exclude: /(node_modules|bower_components)/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                //如果要使用@babel/preset-env这里需要在根目录新建一个babelrc的文件 然后去这里面找配置
+                // presets: ['@babel/preset-env']
+                // 这里直接指定就行
+                presets: ['es2015']
+              }
+            }
+          }
+    ```
+
+
+
+#### 4. webpack配置vue
+
+ 1. ```bash
+    npm install vue --save #这里没有-dev  因为发布后也需要依赖这个vue模块
+    ```
+
+ 2. 在 *main.js* 中引用 vue ：`import Vue from "vue";`
+
+ 3. 此时如果运行程序会报错
+
+    > [Vue warn]: You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.
+    >
+    > 这里补充一个知识点
+    >
+    > vue编译有两种模式：
+    >
+    > 	1. runtime-only -> 代码中，不可以有任何的template，而我们的#app就是一个template
+    >  	2. runntime-compiler -> 代码中可以有template，因为有compiler 可以用于编译
+
+4. 在 *webpack.config.js* 中加上配置
+
+   ```javascript
+     // resolve与module是同层级的
+     resolve:{
+       // alias 别名
+       alias:{
+         'vue$':'vue/dist/vue.esm.js'
+       }
+     }
+   ```
+
+5. 此时再打包运行就OK了，注意index.html里 *bundle.js* 的引用要在html内容后面
+
+   ```html
+     <div id="app">
+       {{msg}}
+     </div>
+     <script src="./dist/bundle.js"></script>
+   ```
+
+   
+
+
+
+
+
+
+
+
 
 
 
