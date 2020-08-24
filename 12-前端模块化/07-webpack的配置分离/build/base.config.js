@@ -1,14 +1,17 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const webpack=require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyjsWebpackPlugin=require('uglifyjs-webpack-plugin')
 
 module.exports = {
   // 入口可以是字符串 数组 对象 
   entry: './src/main.js',
   // 出口通常是一个对象  path必须是绝对路径 这里我们依赖node的path包获取项目绝对路径
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js',
-    publicPath:'dist/'
+    // publicPath:'dist/'
   },
   module: {
     rules: [
@@ -78,6 +81,10 @@ module.exports = {
     }
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.BannerPlugin('最终版权 反正不归我所属'),
+    new HtmlWebpackPlugin({
+      template:'index.html'
+    })
   ]
 }

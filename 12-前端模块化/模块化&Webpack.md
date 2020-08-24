@@ -101,8 +101,6 @@
 
 ### 二、webpack
 
-![image-20200823203523430](C:\Users\Rodrick\AppData\Roaming\Typora\typora-user-images\image-20200823203523430.png)
-
 #### 1. webpack起步
 
  1. vscode的配置
@@ -349,28 +347,30 @@
     npm install --save-dev babel-loader@7 babel-core babel-preset-es2015
     ```
 
-	2. module配置
+2. module配置
 
-    ```javascript
-          {
-            test: /\.js$/,
-            // 排除node模块的js和bower的js
-            exclude: /(node_modules|bower_components)/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                //如果要使用@babel/preset-env这里需要在根目录新建一个babelrc的文件 然后去这里面找配置
-                // presets: ['@babel/preset-env']
-                // 这里直接指定就行
-                presets: ['es2015']
-              }
-            }
-          }
-    ```
+   ```javascript
+         {
+           test: /\.js$/,
+           // 排除node模块的js和bower的js
+           exclude: /(node_modules|bower_components)/,
+           use: {
+             loader: 'babel-loader',
+             options: {
+               //如果要使用@babel/preset-env这里需要在根目录新建一个babelrc的文件 然后去这里面找配置
+               // presets: ['@babel/preset-env']
+               // 这里直接指定就行
+               presets: ['es2015']
+             }
+           }
+         }
+   ```
 
 
 
 #### 4. webpack配置vue
+
+##### 4.1 基本使用
 
  1. ```bash
     npm install vue --save #这里没有-dev  因为发布后也需要依赖这个vue模块
@@ -387,6 +387,7 @@
     > vue编译有两种模式：
     >
     > 	1. runtime-only -> 代码中，不可以有任何的template，而我们的#app就是一个template
+    >
     >  	2. runntime-compiler -> 代码中可以有template，因为有compiler 可以用于编译
 
 4. 在 *webpack.config.js* 中加上配置
@@ -410,15 +411,216 @@
      <script src="./dist/bundle.js"></script>
    ```
 
-   
+
+##### 4.2 配置 .vue文件
+
+ 1. 文件结构参考代码
+
+ 2. npm安装
+
+    ```bash
+    npm install --save-dev vue-loader@15.4.2 vue-template-compiler@2.5.21
+    ```
+
+	3. 报错分析
+
+    此时可能会报两种错：
+
+    **第一种**：
+
+    > vue-loader was used without the corresponding plugin. Make sure to include VueLoaderPlugin in your webpack config.
+
+    查阅文档发现v15版的vue-loader配置需要加个VueLoaderPlugin
+
+    解决方案1：把vue-loader回到v14版本
+
+    ```bash
+    npm uninstall vue-loader
+    npm install vue-leader@14.2.2
+    ```
+
+    解决方案2：修改webpack.config.js
+
+    *新增如下代码*
+
+    ```javascript
+    const VueLoaderPlugin = require('vue-loader/lib/plugin')
+    
+    // plugins和module同层级
+    plugins: [
+        new VueLoaderPlugin()
+    ]
+    ```
+
+    **第二种**：
+
+    > Module build failed: Error: [vue-loader] vue-template-compiler must be installed as a peer dependency, or a compatible compiler implementation must be passed via options.
+
+    查看 *package.json* 中vue的版本和vue-template-compiler版本是否一致 将vue-template-compiler的版本改为vue的版本
+
+    直接修改*package.json*
+
+    ```
+    "vue-template-compiler": "^2.6.12" [vue版本号]
+    
+    npm install # 会根据你的package.json自动配置
+    ```
+
+##### 4.3vue文件引入组件
+
+ 1. 直接在script中 `import Cpn from "./Cpn";`
+
+ 2. 这里是 ./Cpn 而不是 ./Cpn.vue 的原因是在 *webpack.config.js* 中的*resolve*中添加
+
+    ```javascript
+    resolve:{
+        //导入模块简写省略指定后缀
+        extensions: ['.js', '.css', '.vue']
+      }
+    ```
 
 
 
+#### 5. webpack配置plugins
+
+##### 5.1 横幅 多用于版权
+
+*webpack.config.js*中配置
+
+```javascript
+const webpack=require('webpack')
+
+ plugins: [
+    new webpack.BannerPlugin('最终版权 反正不归我所属')
+  ]
+```
+
+配置以后 打包的 *bundle.js* 开头就变成
+
+```javascript
+/*! 最终版权 反正不归我所属 */
+/******/ (function(modules) {
+xxxxx
+```
 
 
 
+##### 5.2 打包html的插件
+
+用处：
+
+	1. 把我们现在不在dist文件夹里的index.html也打包进dist中
+ 	2. 将打包的js文件 也就是main.js 自动通过\<script>标签插入到body中
+
+使用:
+
+ 1. `npm install html-webpack-plugin@3.2.0 --save-dev`
+
+ 2. *webpack.config.js*中的配置
+
+    ```javascript
+    const HtmlWebpackPlugin = require('html-webpack-plugin')
+    
+    output: {
+        // publicPath:'dist/' //之前如果有这个删除掉
+      },
+    plugins: [
+        new HtmlWebpackPlugin({
+          template:'index.html' //这里只会以index.html为模板生成
+        })
+      ]
+    ```
+
+    此时的index.html
+
+    ```html
+    <body>
+      <div id="app">
+      </div>
+    </body>
+    ```
+
+	3. 这时候打包完dist目录中就会存在index.html了，并且会自动导入js文件
+
+    ```html
+    <body>
+      <div id="app">
+      </div>
+    <script type="text/javascript" src="bundle.js"></script></body>
+    ```
 
 
+
+##### 5.3 压缩js
+
+`npm install uglifyjs-webpack-plugin@1.1.1 --save-dev`
+
+```
+const UglifyjsWebpackPlugin=require('uglifyjs-webpack-plugin')
+
+plugins: [
+    new UglifyjsWebpackPlugin()
+  ]
+```
+
+
+
+##### 5.4 搭建本地服务器热更新
+
+`npm install webpack-dev-server@2.9.3 --save-dev`
+
+package.json
+
+```
+"scripts": {
+    "dev":"webpack-dev-server --open" //--open 代表自动打开浏览器
+  },
+```
+
+webpack.config.js
+
+```
+// devServer和module同层
+devServer:{
+    contentBase:'./dist', // 服务于哪个文件夹
+    inline:true // 是否实时监听
+  }
+```
+
+
+
+##### 5.5 配置文件分离
+
+ * 根目录建一个build文件夹 里面三个文件 
+
+   > base.config.js：生产开发都用的配置
+   >
+   > dev.config.js：开发专用配置
+   >
+   > prod.config.js：生产专用配置
+
+* `npm install  webpack-merge@4.1.5 --save-dev `
+
+* 具体使用看代码
+
+* package.json 配置 指定不同命令用的文件
+
+  ```javascript
+  "scripts": {
+      "build": "webpack --config ./build/prod.config.js",
+      "dev": "webpack-dev-server --open --config ./build/dev.config.js"
+    },
+  ```
+
+* base.config.js
+
+  ```javascript
+   output: {
+      path: path.resolve(__dirname, '../dist') // 这里出口路径取上层文件夹 因为现在的配置文件在build文件夹里
+    },
+  ```
+
+  
 
 
 

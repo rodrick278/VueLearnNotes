@@ -1,5 +1,8 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const webpack=require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyjsWebpackPlugin=require('uglifyjs-webpack-plugin')
 
 module.exports = {
   // 入口可以是字符串 数组 对象 
@@ -8,7 +11,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath:'dist/'
+    // publicPath:'dist/'
   },
   module: {
     rules: [
@@ -78,6 +81,15 @@ module.exports = {
     }
   },
   plugins: [
-    new VueLoaderPlugin()
-  ]
+    new VueLoaderPlugin(),
+    new webpack.BannerPlugin('最终版权 反正不归我所属'),
+    new HtmlWebpackPlugin({
+      template:'index.html'
+    }),
+    new UglifyjsWebpackPlugin()
+  ],
+  devServer:{
+    contentBase:'./dist', // 服务于哪个文件夹
+    inline:true // 是否实时监听
+  }
 }
