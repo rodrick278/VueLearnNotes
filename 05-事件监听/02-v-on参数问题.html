@@ -13,7 +13,7 @@
     <!-- 函数需要参数 但是没传参数且没加括号【如果加了括号 会传入undifined】 默认会传入event -->
     <button @click="btn2click">but2</button>
     <!-- 这里不仅需要event参数 还需要其他参数  【$event可以传入事件】 -->
-    <button @click="btn3click(123,$ event)">but3</button>
+    <button @click="btn3click(123,$event)">but3</button>
   </div>
   <script src="../js/vue.js"></script>
   <script>
