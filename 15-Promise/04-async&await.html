@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 1. async 返回Promise对象
+    // async function testAsync() {
+    //   return "hello async";
+    // }
+
+    // const result = testAsync();
+    // console.log(result); //是一个Promise对象
+
+
+    // 2. 简单的比较正常Promise写法和async写法
+    // 先定义一个返回Promise的方法
+    // function takeLongTime() {
+    //   return new Promise(resolve => {
+    //     setTimeout(() => resolve("long_time_value"), 1000);
+    //   });
+    // }
+    // Promise写法
+    // takeLongTime().then(v => {
+    //   console.log("got", v);
+    // });
+
+    //async写法
+    // async function test() {
+    //   const v = await takeLongTime();
+    //   console.log(v);
+    // }
+
+    // test();
+
+    // 3. 链式处理
+    /**
+    * 传入参数 n，表示这个函数执行的时间（毫秒）
+    * 执行的结果是 n + 200，这个值将用于下一步骤
+    */
+    function takeLongTime(n) {
+      return new Promise(resolve => {
+        setTimeout(() => resolve(n + 200), n);
+      });
+    }
+
+    // function step1(n) {
+    //   console.log(`step1 with ${n}`);
+    //   return takeLongTime(n);
+    // }
+
+    // function step2(n) {
+    //   console.log(`step2 with ${n}`);
+    //   return takeLongTime(n);
+    // }
+
+    // function step3(n) {
+    //   console.log(`step3 with ${n}`);
+    //   return takeLongTime(n);
+    // }
+
+    // // Promise方式
+    // function doIt() {
+    //   console.time("doIt");
+    //   const time1 = 300;
+    //   step1(time1)
+    //     .then(time2 => step2(time2))
+    //     .then(time3 => step3(time3))
+    //     .then(result => {
+    //       console.log(`result is ${result}`);
+    //       console.timeEnd("doIt");
+    //     });
+    // }
+
+    // doIt();
+
+    // // async/await
+    // async function doIt() {
+    //   console.time("doIt");
+    //   const time1 = 300;
+    //   const time2 = await step1(time1);
+    //   const time3 = await step2(time2);
+    //   const result = await step3(time3);
+    //   console.log(`result is ${result}`);
+    //   console.timeEnd("doIt");
+    // }
+
+    // doIt();
+
+
+    // 现在改一下需求,假如我执行step2方法的时候我需要同时传入time1&time2，然后step3的时候同时传入time1&time2&time3
+    // function step1(n) {
+    //   console.log(`step1 with ${n}`);
+    //   return takeLongTime(n);
+    // }
+
+    // function step2(m, n) {
+    //   console.log(`step2 with ${m} and ${n}`);
+    //   return takeLongTime(m + n);
+    // }
+
+    // function step3(k, m, n) {
+    //   console.log(`step3 with ${k}, ${m} and ${n}`);
+    //   return takeLongTime(k + m + n);
+    // }
+
+      // async 写法
+    // async function doIt() {
+    //   let time1 = 300
+    //   time2=await step1(time1)
+    //   time3=await step2(time1,time2)
+    //   result=await step3(time1,time2,time3)
+    //   console.log(`result is ${result}`)
+    // }
+
+      // Promise 写法
+    // function doIt(){
+    //   let time1 = 300,time2,time3
+    //   step1(time1)
+    //   .then((param)=>step2(time1,time2=param))
+    //   .then((param)=>step3(time1,time2,time3=param))
+    //   .then((result)=>{
+    //     console.log(`result is ${result}`)
+    //   })
+    // }
+    // doIt()
+  </script>
+
+</body>
+
+</html>

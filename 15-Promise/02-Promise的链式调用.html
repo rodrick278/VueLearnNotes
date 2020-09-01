@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 基本链式调用一
+    // new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     resolve('HI!')
+    //   }, 1000);
+    // }).then(data => {
+    //   console.log(data);
+    //   // 下面这两种写法是一样的
+    //   // return new Promise(resolve => {
+    //   //   resolve(data + '111')
+    //   // })
+    //   return Promise.resolve(data + '111')
+    // })
+    //   .then(data => {
+    //     console.log(data);
+    //     // return Promise.resolve(data + '222')
+    //     // 这里reject会直接进catch
+    //     return Promise.reject('err!!')
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //     return Promise.resolve(data + '333')
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+
+    // new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     resolve('HI!')
+    //   }, 1000);
+    // }).then(data => {
+    //   console.log(data);
+    //   return data + '111'
+    // })
+    //   .then(data => {
+    //     console.log(data);
+    //     // return data + '222'
+    //     // 这样直接throw 可以进catch
+    //     throw 'err !!!'
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //     return data + '333'
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //   }).catch(err=>{
+    //     console.log(err);
+    //   })
+
+
+  </script>
+</body>
+
+</html>

@@ -3,25 +3,25 @@
     <template v-slot:default>
       <tab-bar-item path="/home" activeColor="blue">
         <template v-slot:item-icon>
-          <img src="../assets/img/tabbar/home.png" alt />
+          <img src="~assets/img/tabbar/home.png" alt />
         </template>
         <template v-slot:item-text>
           <div>首页</div>
         </template>
-        <template v-slot:item-icon-active>
-          <img src="../assets/img/tabbar/home_active.png" alt />
+        <template #item-icon-active>
+          <img src="~assets/img/tabbar/home_active.png" alt />
         </template>
       </tab-bar-item>
 
       <tab-bar-item path="/category" activeColor="blue">
         <template v-slot:item-icon>
-          <img src="../assets/img/tabbar/type.png" alt />
+          <img src="@/assets/img/tabbar/type.png" alt />
         </template>
         <template v-slot:item-text>
           <div>分类</div>
         </template>
         <template v-slot:item-icon-active>
-          <img src="../assets/img/tabbar/type_active.png" alt />
+          <img src="@/assets/img/tabbar/type_active.png" alt />
         </template>
       </tab-bar-item>
 

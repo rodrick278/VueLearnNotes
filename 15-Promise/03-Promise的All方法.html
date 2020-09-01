@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    Promise.all([
+      // new Promise((resolve,reject)=>{
+      //   $ajax({
+      //     url:'url1',
+      //     success:function (data1) {
+      //       resolve(data1)
+      //     }
+      //   })
+      // }),
+      // new Promise((resolve,reject)=>{
+      //   $ajax({
+      //     url:'url2',
+      //     success:function (data2) {
+      //       resolve(data2)
+      //     }
+      //   })
+      // })
+      
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('data1')
+        }, 2000);
+      }),
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('data2')
+        }, 1000);
+      })
+    ]).then(results => {
+      // results[0]==data1 // true
+      // results[1]==data2 // true
+      console.log(results[0], results[1]);
+    })
+  </script>
+</body>
+
+</html>
