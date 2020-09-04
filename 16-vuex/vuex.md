@@ -123,3 +123,168 @@
 
      ![image-20200903225809443](https://gitee.com/rodrick278/img/raw/master/img/image-20200903225809443.png)
 
+##### 2.2 Getters
+
+可以把getters看成是计算属性
+
+使用方法：
+
+* 三种常见的传参以及使用
+
+  `App.vue`
+
+  ```vue
+  <h2>大于20的学生信息：{{$store.getters.stuMoreThan20}}</h2>
+  <h2>大于20的学生信息的长度是：{{$store.getters.stuMoreThan20Len}}</h2>
+  <h2>大于动态参数的学生信息：{{$store.getters.changeAgeFilterStu(30)}}</h2>
+  ```
+
+  `index.js`
+
+  ```js
+  getters: {
+      // 传一个参，默认state
+      stuMoreThan20(state) {
+        return state.student.filter(item => item.age >= 20)
+      },
+      // 传俩参数，默认state & getters
+      stuMoreThan20Len(state, getters) {
+        return getters.stuMoreThan20.length
+      },
+      // 不允许传入自定义参数，但是可以先return一个函数，这个函数的参数是你的自定义参数，然后在这个函数里返回就好
+      changeAgeFilterStu(state) {
+        return age=> {
+          return state.student.filter(item=>item.age>age)
+        }
+      }
+    }
+  ```
+
+##### 2.3 Mutation(状态更新）
+
+1. 四种提交(commit)方式
+
+   * 无参
+
+   ````js
+   // 组件内提交
+   plus() {
+         this.$store.commit("add");
+       },
+       
+   // vuex接收
+    mutations: {
+       add(state) {
+         state.counter++
+       }
+     },
+   ````
+
+   *  提交载荷（Payload）
+
+     你可以向 `store.commit` 传入额外的参数，即 mutation 的 **载荷（payload）**：
+
+     在大多数情况下，载荷应该是一个对象，这样可以包含多个字段并且记录的 mutation 会更易读：
+
+     ```js
+     // 组件内提交
+     addStu() {
+           const stu = { id: 3, name: "harry", age: 99 };
+           this.$store.commit('addYourStu',{stu})
+         },
+         
+     // vuex接收
+      mutations: {
+         addYourStu(state,payload){
+         state.student.push(payload.stu)
+         }
+       },
+     ```
+
+   * 对象风格的提交方式
+
+     提交 mutation 的另一种方式是直接使用包含 `type` 属性的对象：
+
+     ```js
+     // 组件内提交
+     addStu() {
+           const stu = { id: 3, name: "harry", age: 99 };
+           this.$store.commit({
+             type: "addYourStu",
+             stu,
+           });
+         },
+         
+     // vuex接收
+      mutations: {
+         addYourStu(state,payload){
+         state.student.push(payload.stu)
+         }
+       },
+     ```
+
+     ##### 2.4 Mutation  需遵守 Vue 的响应规则
+
+     既然 Vuex 的 store 中的状态是响应式的，那么当我们变更状态时，监视状态的 Vue 组件也会自动更新。这也意味着 Vuex 中的 mutation 也需要与使用 Vue 一样遵守一些注意事项：
+
+     1. 最好提前在你的 store 中初始化好所有所需属性。
+     2. 当需要在对象上添加新属性时，你应该
+
+     * 使用 `Vue.set(obj, 'newProp', 123)`
+
+       > Vue.set是将你将变量加入响应式系统的方法！
+
+       , 或者
+
+     * 以新对象替换老对象。例如，利用[对象展开运算符](https://github.com/tc39/proposal-object-rest-spread)我们可以这样写：
+
+       ```js
+       state.obj = { ...state.obj, newProp: 123 }
+       ```
+
+     * 删除的时候
+
+       删除的时候，用 `delete state.obj.Prop` 是不能响应式的，虽然能删除这个属性
+
+       ```
+       Vue.delete(obj,'oldProp')
+       ```
+
+     ##### 2.5 mutation的类型常量
+
+     使用常量替代 mutation 事件类型在各种 Flux 实现中是很常见的模式。这样可以使 linter 之类的工具发挥作用，同时把这些常量放在单独的文件中可以让你的代码合作者对整个 app 包含的 mutation 一目了然：
+
+     `store/mutations-type.js`
+
+     ```
+     export const ADD='add'
+     ```
+
+     `index.js`
+
+     ```js
+     import {ADD} from "@/store/mutations-type.js";
+     
+     mutations: {
+         [ADD](state) {
+           state.counter++
+         }
+       },
+     ```
+
+     `App.vue`
+
+     ```js
+     import {ADD} from "@/store/mutations-type.js";
+     
+     methods: {
+         plus() {
+           // this.counter++
+           // this.$store.state.counter++
+           this.$store.commit(ADD);
+         }
+     }
+     ```
+
+     
+

@@ -4,10 +4,7 @@
 
 <script>
 export default {
-  name:'HelloVuex',
-  // props:{
-  //   counter:Number
-  // }
+  name:'HelloVuex'
 }
 </script>
 
