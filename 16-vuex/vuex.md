@@ -160,7 +160,7 @@
     }
   ```
 
-##### 2.3 Mutation(状态更新）
+##### 2.3 Mutations(状态更新）
 
 1. 四种提交(commit)方式
 
@@ -223,68 +223,256 @@
        },
      ```
 
-     ##### 2.4 Mutation  需遵守 Vue 的响应规则
+##### 2.4 Mutation  需遵守 Vue 的响应规则
 
-     既然 Vuex 的 store 中的状态是响应式的，那么当我们变更状态时，监视状态的 Vue 组件也会自动更新。这也意味着 Vuex 中的 mutation 也需要与使用 Vue 一样遵守一些注意事项：
+**Mutation中的方法必须是同步方法.**
 
-     1. 最好提前在你的 store 中初始化好所有所需属性。
-     2. 当需要在对象上添加新属性时，你应该
+既然 Vuex 的 store 中的状态是响应式的，那么当我们变更状态时，监视状态的 Vue 组件也会自动更新。这也意味着 Vuex 中的 mutation 也需要与使用 Vue 一样遵守一些注意事项：
 
-     * 使用 `Vue.set(obj, 'newProp', 123)`
+1. 最好提前在你的 store 中初始化好所有所需属性。
+2. 当需要在对象上添加新属性时，你应该
 
-       > Vue.set是将你将变量加入响应式系统的方法！
+* 使用 `Vue.set(obj, 'newProp', 123)`
 
-       , 或者
+  > Vue.set是将你将变量加入响应式系统的方法！
 
-     * 以新对象替换老对象。例如，利用[对象展开运算符](https://github.com/tc39/proposal-object-rest-spread)我们可以这样写：
+  , 或者
 
-       ```js
-       state.obj = { ...state.obj, newProp: 123 }
-       ```
+* 以新对象替换老对象。例如，利用[对象展开运算符](https://github.com/tc39/proposal-object-rest-spread)我们可以这样写：
 
-     * 删除的时候
+  ```js
+  state.obj = { ...state.obj, newProp: 123 }
+  ```
 
-       删除的时候，用 `delete state.obj.Prop` 是不能响应式的，虽然能删除这个属性
+* 删除的时候
 
-       ```
-       Vue.delete(obj,'oldProp')
-       ```
+  删除的时候，用 `delete state.obj.Prop` 是不能响应式的，虽然能删除这个属性
 
-     ##### 2.5 mutation的类型常量
+  ```
+  Vue.delete(obj,'oldProp')
+  ```
 
-     使用常量替代 mutation 事件类型在各种 Flux 实现中是很常见的模式。这样可以使 linter 之类的工具发挥作用，同时把这些常量放在单独的文件中可以让你的代码合作者对整个 app 包含的 mutation 一目了然：
+##### 2.5 mutation的类型常量
 
-     `store/mutations-type.js`
+使用常量替代 mutation 事件类型在各种 Flux 实现中是很常见的模式。这样可以使 linter 之类的工具发挥作用，同时把这些常量放在单独的文件中可以让你的代码合作者对整个 app 包含的 mutation 一目了然：
 
-     ```
-     export const ADD='add'
-     ```
+`store/mutations-type.js`
 
-     `index.js`
+```
+export const ADD='add'
+```
 
-     ```js
-     import {ADD} from "@/store/mutations-type.js";
-     
-     mutations: {
-         [ADD](state) {
-           state.counter++
-         }
-       },
-     ```
+`index.js`
 
-     `App.vue`
+```js
+import {ADD} from "@/store/mutations-type.js";
 
-     ```js
-     import {ADD} from "@/store/mutations-type.js";
-     
-     methods: {
-         plus() {
-           // this.counter++
-           // this.$store.state.counter++
-           this.$store.commit(ADD);
-         }
+mutations: {
+    [ADD](state) {
+      state.counter++
+    }
+  },
+```
+
+`App.vue`
+
+```js
+import {ADD} from "@/store/mutations-type.js";
+
+methods: {
+    plus() {
+      // this.counter++
+      // this.$store.state.counter++
+      this.$store.commit(ADD);
+    }
+}
+```
+
+##### 2.6 Actions
+
+**进行异步操作**
+
+1. 在组建内 `this,$store.dispatch` 提交到异步的actions里
+
+   ```js
+   // App.vue
+   methods(){
+     cinfo()
+     this.$store
+     .dispatch('aUpdateInfo','我是payload')
+     .then(res=>{
+       console.log(res);
+       console.log('成功执行完异步操作！');
+     })
      }
-     ```
+   }
+   ```
 
-     
+2. `actions` 里接收信息,`mutation`操作`state`
+
+   注意`action`里对`state`的操作还是需要`commit`到`mutation`里去做
+
+   `action`可以return一个`promise`对象，用来传出data或者判断是否成功执行
+
+   ```js
+   mutations: {
+       changeInfo(state) {
+         state.info.name = 'name2'
+       }
+     },
+   
+   actions: {
+       // context 上下文
+       aUpdateInfo(context, payload) {
+         return new Promise((resolve, reject) => {
+           setTimeout(() => {
+             context.commit('changeInfo')
+             resolve('我是执行后返回的data')
+           }, 100);
+         }
+         )
+   
+       }
+     },
+   ```
+
+3. 用`.then`或者`.catch`判断执行成功与否并且获取返回data
+
+   > 具体代码参见1.
+
+##### 2.7 Modules
+
+基本用法
+
+* 在获取模块的`state`的时候用`$store.state.modeleName.xxx`
+* 其他的正常使用，因为变异后会把模块的合并进方法
+
+```vue
+// App.vue
+// html
+<h2>{{$store.state.modeleA.name}}</h2>
+<h2>{{$store.getters.getName1}}</h2>
+<h2>{{$store.getters.getName2}}</h2>
+<h2>{{$store.getters.getName3}}</h2>
+<button @click="mCName">同步修改名字</button>
+<button @click="asyncCName">异步修改名字</button>
+
+// methods
+methods(){
+	mCName(){
+      this.$store.commit({
+        type:'aChngeName',
+        name:'lisi'
+      })
+    },
+    asyncCName(){
+      this.$store.dispatch('asyncChangeName')
+    }
+}
+```
+
+* `mutations`的`state`参数是局部状态
+
+* `actions`中可以用ES6解构写法选取部分`context`的属性作为状态也可以整个作为参数
+
+  <img src="https://gitee.com/rodrick278/img/raw/master/img/image-20200906211248728.png" alt="image-20200906211248728" style="zoom:60%;" />
+
+  > ES6解构
+  >
+  > * 数组解构
+  >
+  >   ```js
+  >   const arr = [1, 2, 3];
+  >   const [a, b, c] = arr;
+  >   console.log(a,b,c) // 1,2,3
+  >   ```
+  >
+  > * 对象解构
+  >
+  >   ```js
+  >   const { loading, clicked } = MYOBJ;
+  >   console.log(loading);// false
+  >   
+  >   // 还可以给一个默认值，当props对象中找不到loading时，loading就等于该默认值
+  >   const { loadings = false, clicked } = MYOBJ;
+  >   console.log(loadings);// false
+  >   ```
+  >
+  >   
+
+* `getters`可以有三个参数，，其中`rootGetters`是根的状态
+
+```js
+// index.js
+const modeleA={
+  state:{
+    name:"zhangsan"
+  },
+  mutations:{
+    aChngeName(state,payload){
+      // 这里的 `state` 对象是模块的局部状态
+      state.name=payload.name
+    }
+  },
+  actions:{
+    // 方法1：直接拿整个context作为参数是ok的
+    asyncChangeName(context){
+      setTimeout(() => {
+        console.log(context);
+        context.commit('aChngeName',{name:'wangwu'})
+      }, 1000);
+    }
+    // 方法2：解构写法
+    // asyncChangeName({ state, commit, rootState }){
+    //   setTimeout(() => {
+    //     if(state.name=='zhangsan'){
+    //       commit('aChngeName',{name:rootState.info.name})
+    //     }
+    //   }, 1000);
+    // }
+  },
+  getters:{
+    getName1(state){
+      return state.name+'000'
+    },
+    getName2(state,getters){
+      return getters.getName1+'111'
+    },
+    getName3(state,getters,rootGetters){
+      return getters.getName2+rootGetters.info.name
+    },
+  }
+}
+```
+
+##### 2.8 项目结构
+
+Vuex 并不限制你的代码结构。但是，它规定了一些需要遵守的规则：
+
+1. 应用层级的状态应该集中到单个 store 对象中。
+2. 提交 **mutation** 是更改状态的唯一方法，并且这个过程是同步的。
+3. 异步逻辑都应该封装到 **action** 里面。
+
+只要你遵守以上规则，如何组织代码随你便。如果你的 store 文件太大，只需将 action、mutation 和 getter 分割到单独的文件。
+
+对于大型应用，我们会希望把 Vuex 相关代码分割到模块中。下面是项目结构示例：
+
+<img src="https://gitee.com/rodrick278/img/raw/master/img/image-20200906213336643.png" alt="image-20200906213336643" style="zoom:50%;" />
+
+```bash
+├── index.html
+├── main.js
+├── api
+│   └── ... # 抽取出API请求
+├── components
+│   ├── App.vue
+│   └── ...
+└── store
+    ├── index.js          # 我们组装模块并导出 store 的地方
+    ├── actions.js        # 根级别的 action
+    ├── mutations.js      # 根级别的 mutation
+    └── modules
+        ├── cart.js       # 购物车模块
+        └── products.js   # 产品模块
+```
 
